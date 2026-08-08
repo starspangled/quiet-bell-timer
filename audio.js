@@ -31,8 +31,10 @@
   }
   global.createBellAudio=createBellAudio;
   global.unlockBellAudio=function(){
-    const probe=createBellAudio();
-    probe.setVolume(0);
-    probe.play();
+    if(!ctx){
+      const probe=createBellAudio();
+      probe.setVolume(.55);
+    }
+    if(ctx&&ctx.state==='suspended')ctx.resume();
   };
 })(window);
