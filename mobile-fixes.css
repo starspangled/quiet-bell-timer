@@ -1,12 +1,12 @@
 @media(max-width:650px){
   body{font-size:16px}
   .set-card{padding:24px 18px!important}
-  .section-heading h2{font-size:29px!important}
-  .block{font-size:16px!important}
-  .block .field-label,.block label:before{font-size:13px!important;letter-spacing:.01em}
-  .block input{font-size:17px!important;min-height:48px!important;padding:11px 12px!important}
+  .section-heading h2{font-size:34px!important}
+  .block{font-size:19px!important}
+  .block .field-label,.block label:before{font-size:16px!important;letter-spacing:.01em}
+  .block input{font-size:21px!important;min-height:56px!important;padding:13px 14px!important}
   .block-actions .icon-button{font-size:21px!important;padding:9px 11px!important}
-  .hint,.support-note{font-size:14px!important;line-height:1.5}
-  .add-button{font-size:14px!important;padding:11px 14px!important}
-  .controls button{font-size:14px!important}
+  .hint,.support-note{font-size:16px!important;line-height:1.5}
+  .add-button{font-size:16px!important;padding:13px 16px!important}
+  .controls button{font-size:16px!important}
 }
