@@ -1,4 +1,6 @@
 (function(){
+  const start=document.getElementById('start-button');
+  if(start)start.addEventListener('click',function(){if(window.unlockBellAudio)window.unlockBellAudio()},{once:false});
   const reset=document.getElementById('reset-button');
   if(reset)reset.addEventListener('click',function(){
     const status=document.getElementById('timer-status');
