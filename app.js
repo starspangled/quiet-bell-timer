@@ -1,4 +1,4 @@
-const DEFAULT_BLOCKS=[{duration:5000,repeats:10,label:'Set one'},{duration:30000,repeats:20,label:'Set two'}];const SET_KEY='spa-bell-set-v3',VOL_KEY='spa-bell-volume-v1';let blocks=load(SET_KEY)||DEFAULT_BLOCKS,volume=Number(localStorage.getItem(VOL_KEY)??.55),audio=createBellAudio(),timer;
+const DEFAULT_BLOCKS=[{duration:15000,repeats:10,label:'Set one'},{duration:30000,repeats:20,label:'Set two'}];const SET_KEY='spa-bell-set-v4',VOL_KEY='spa-bell-volume-v1';let blocks=load(SET_KEY)||DEFAULT_BLOCKS,volume=Number(localStorage.getItem(VOL_KEY)??.55),audio=createBellAudio(),timer;
 const $=id=>document.getElementById(id), fmt=ms=>{let s=Math.ceil(ms/1000),m=Math.floor(s/60);return `${String(m).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`};
 function load(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}}function normalize(){blocks=blocks.map(b=>({duration:Math.max(1000,Number(b.duration)||60000),repeats:Math.max(1,Math.round(Number(b.repeats)||1)),label:String(b.label||'')}))}
 function save(){localStorage.setItem(SET_KEY,JSON.stringify(blocks));localStorage.setItem(VOL_KEY,String(volume))}
