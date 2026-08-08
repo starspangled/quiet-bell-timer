@@ -1,7 +1,7 @@
 (function(global){
   let volume=.55;
   function createBellAudio(){
-    const bell=new Audio('./bell.wav?v=4');
+    const bell=new Audio('./bell.wav?v=5');
     bell.preload='auto';
     const api={
       setVolume(v){volume=Number(v);bell.volume=volume},
