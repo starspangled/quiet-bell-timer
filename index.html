@@ -7,6 +7,7 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <title>Quiet Bell Timer</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mobile-fixes.css" />
 </head>
 <body>
   <main class="app-shell">
@@ -23,5 +24,5 @@
     <section class="set-card"><div class="section-heading"><div><p class="eyebrow">YOUR SET</p><h2>Intervals</h2></div><button class="add-button" id="add-block-button">＋ Add interval</button></div><div id="set-list"></div><p class="hint">The bell sounds at the end of every interval. Your set is saved on this device.</p></section>
     <p class="support-note" id="support-note">For the most reliable sound on a phone, keep this page open and in the foreground.</p>
   </main>
-  <script src="timer.js"></script><script src="audio.js"></script><script src="app.js"></script><script>if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
+  <script src="timer.js"></script><script src="audio.js"></script><script src="app.js"></script><script src="mobile-fixes.js"></script><script>if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
 </body></html>
