@@ -30,4 +30,9 @@
     };
   }
   global.createBellAudio=createBellAudio;
+  global.unlockBellAudio=function(){
+    const probe=createBellAudio();
+    probe.setVolume(0);
+    probe.play();
+  };
 })(window);
