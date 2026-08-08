@@ -1,17 +1,17 @@
 (function(global){
-  let ctx, master, echo, echoGain;
+  let ctx, master, echo, echoGain, requestedVolume=.55;
 
   function createBellAudio(){
     function setup(){
       if(ctx) return;
       ctx=new (window.AudioContext||window.webkitAudioContext)();
-      master=ctx.createGain(); master.gain.value=.55; master.connect(ctx.destination);
+      master=ctx.createGain(); master.gain.value=requestedVolume*.7; master.connect(ctx.destination);
       echo=ctx.createDelay(1.2); echo.delayTime.value=.38;
       echoGain=ctx.createGain(); echoGain.gain.value=.28;
       echo.connect(echoGain); echoGain.connect(master);
     }
     return {
-      setVolume(v){ setup(); master.gain.value=Number(v)*.7; },
+      setVolume(v){ requestedVolume=Number(v); if(master)master.gain.value=requestedVolume*.7; },
       play(){
         setup(); if(ctx.state==='suspended')ctx.resume();
         const now=ctx.currentTime, input=ctx.createGain();
