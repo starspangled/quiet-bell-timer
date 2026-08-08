@@ -1,16 +1,15 @@
 (function(global){
-  class IntervalTimer {
-    constructor({onTick=()=>{},onBell=()=>{},onComplete=()=>{},onStateChange=()=>{}}={}){this.callbacks={onTick,onBell,onComplete,onStateChange};this.blocks=[];this.blockIndex=0;this.roundIndex=0;this.running=false;this.startedAt=0;this.elapsedBefore=0;this.raf=0}
+  class IntervalTimer{
+    constructor({onTick=()=>{},onBell=()=>{},onComplete=()=>{},onStateChange=()=>{}}={}){this.cb={onTick,onBell,onComplete,onStateChange};this.blocks=[];this.blockIndex=0;this.roundIndex=0;this.running=false;this.startedAt=0;this.elapsedBefore=0;this.handle=0}
     setBlocks(blocks){this.blocks=blocks.map(b=>({duration:Math.max(1000,Number(b.duration)||60000),repeats:Math.max(1,Math.round(Number(b.repeats)||1)),label:b.label||''}));this.reset()}
     current(){return this.blocks[this.blockIndex]||{duration:60000,repeats:1,label:''}}
-    getSnapshot(now=performance.now()){const block=this.current();const total=block.duration;let elapsed=this.running?this.elapsedBefore+(now-this.startedAt):this.elapsedBefore;return {running:this.running,blockIndex:this.blockIndex,roundIndex:this.roundIndex,blockCount:this.blocks.length,roundCount:block.repeats,remaining:Math.max(0,total-elapsed),duration:total,elapsed:Math.min(total,elapsed),done:!this.blocks.length}}
-    emit(){this.callbacks.onTick(this.getSnapshot())}
-    loop=()=>{if(!this.running)return;let snap=this.getSnapshot();if(snap.remaining<=0){this.callbacks.onBell(snap);this.advance();return}this.emit();this.raf=requestAnimationFrame(this.loop)}
-    start(){if(!this.blocks.length)return;if(this.isDone())this.reset();this.running=true;this.startedAt=performance.now();this.callbacks.onStateChange(true);this.loop()}
-    pause(){if(!this.running)return;this.elapsedBefore+=performance.now()-this.startedAt;this.running=false;cancelAnimationFrame(this.raf);this.callbacks.onStateChange(false);this.emit()}
-    reset(){this.running=false;cancelAnimationFrame(this.raf);this.blockIndex=0;this.roundIndex=0;this.elapsedBefore=0;this.callbacks.onStateChange(false);this.emit()}
-    isDone(){return this.blockIndex>=this.blocks.length}
-    advance(){this.elapsedBefore=0;this.roundIndex++;if(this.roundIndex>=this.current().repeats){this.roundIndex=0;this.blockIndex++}if(this.isDone()){this.running=false;this.callbacks.onComplete();this.emit();return}this.startedAt=performance.now();this.emit();this.raf=requestAnimationFrame(this.loop)}
-    skip(){if(this.isDone())return;this.callbacks.onBell(this.getSnapshot());this.advance()}
-  } global.IntervalTimer=IntervalTimer;
+    snapshot(){const b=this.current();const elapsed=this.running?this.elapsedBefore+(performance.now()-this.startedAt):this.elapsedBefore;return{running:this.running,blockIndex:this.blockIndex,roundIndex:this.roundIndex,blockCount:this.blocks.length,roundCount:b.repeats,remaining:Math.max(0,b.duration-elapsed),duration:b.duration,elapsed:Math.min(b.duration,elapsed),done:!this.blocks.length}}
+    tick=()=>{if(!this.running)return;const s=this.snapshot();if(s.remaining<=0){this.cb.onBell(s);this.advance()}else{this.cb.onTick(s);this.handle=setTimeout(this.tick,100)}}
+    start(){if(!this.blocks.length)return;this.running=true;this.startedAt=performance.now();this.cb.onStateChange(true);this.tick()}
+    pause(){if(!this.running)return;this.elapsedBefore+=performance.now()-this.startedAt;this.running=false;clearTimeout(this.handle);this.cb.onStateChange(false);this.cb.onTick(this.snapshot())}
+    reset(){this.running=false;clearTimeout(this.handle);this.blockIndex=0;this.roundIndex=0;this.elapsedBefore=0;this.cb.onStateChange(false);if(this.blocks.length)this.cb.onTick(this.snapshot())}
+    advance(){this.elapsedBefore=0;this.roundIndex++;if(this.roundIndex>=this.current().repeats){this.roundIndex=0;this.blockIndex++}if(this.blockIndex>=this.blocks.length){this.running=false;this.cb.onComplete();this.cb.onTick({...this.snapshot(),done:true});return}this.startedAt=performance.now();this.cb.onTick(this.snapshot());this.handle=setTimeout(this.tick,100)}
+    skip(){if(!this.blocks.length||this.blockIndex>=this.blocks.length)return;this.cb.onBell(this.snapshot());this.advance()}
+  }
+  global.IntervalTimer=IntervalTimer;
 })(window);
