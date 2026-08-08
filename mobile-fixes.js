@@ -2,7 +2,7 @@
   const test=document.getElementById('test-bell-button');
   if(test)test.addEventListener('click',function(){const bell=new Audio('./bell.wav?v=3');bell.volume=.7;bell.play().catch(()=>{})});
   const start=document.getElementById('start-button');
-  if(start)start.addEventListener('click',function(){const unlock=new Audio('./bell.wav');unlock.muted=true;unlock.play().then(()=>{unlock.pause();unlock.currentTime=0;unlock.muted=false}).catch(()=>{})},{once:false});
+  if(start)start.addEventListener('click',function(){if(window.bellController)window.bellController.unlock()},{once:false});
   const reset=document.getElementById('reset-button');
   if(reset)reset.addEventListener('click',function(){
     const status=document.getElementById('timer-status');
