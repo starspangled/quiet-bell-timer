@@ -1,3 +1,11 @@
+/* Comfortable settings typography on every screen */
+.set-card .section-heading h2{font-size:32px!important}
+.set-card .block{font-size:17px!important}
+.set-card .block .field-label{font-size:13px!important;font-weight:700}
+.set-card .block input{font-size:18px!important;min-height:46px!important;padding:10px 12px!important}
+.set-card .hint{font-size:14px!important;line-height:1.5}
+.set-card .add-button{font-size:15px!important;padding:11px 15px!important}
+
 @media(max-width:650px){
   body{font-size:16px}
   .set-card{padding:24px 18px!important}
