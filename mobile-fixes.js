@@ -1,6 +1,6 @@
 (function(){
   const start=document.getElementById('start-button');
-  if(start)start.addEventListener('click',function(){if(window.unlockBellAudio)window.unlockBellAudio()},{once:false});
+  if(start)start.addEventListener('click',function(){const unlock=new Audio('./bell.wav');unlock.muted=true;unlock.play().then(()=>{unlock.pause();unlock.currentTime=0;unlock.muted=false}).catch(()=>{})},{once:false});
   const reset=document.getElementById('reset-button');
   if(reset)reset.addEventListener('click',function(){
     const status=document.getElementById('timer-status');
